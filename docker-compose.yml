@@ -1,7 +1,7 @@
 services:
   ilham-resume:
-    container_name: lapi
-    image: lapi:latest
+    container_name: littlenotes-api
+    image: littlenotes-api:latest
     ports:
       - 3031:3031
     environment:
