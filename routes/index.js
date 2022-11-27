@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.send('welcome to littlenotes-api');
+  res.send('welcome to littlenotes-api!');
 });
 
 module.exports = router;
