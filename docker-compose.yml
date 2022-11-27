@@ -1,5 +1,5 @@
 services:
-  ilham-resume:
+  littlenotes-api:
     container_name: littlenotes-api
     image: littlenotes-api:latest
     ports:
