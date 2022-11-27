@@ -1,0 +1,8 @@
+services:
+  ilham-resume:
+    container_name: lapi
+    image: lapi:latest
+    ports:
+      - 3038:3031
+    environment:
+      - APP_PORT=3031
