@@ -8,6 +8,9 @@ const helmet = require('helmet')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+const db = require('./config/db');
+db.connect();
+
 const app = express();
 
 app.use(helmet());
