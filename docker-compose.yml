@@ -4,5 +4,5 @@ services:
     image: littlenotes-api:latest
     ports:
       - 3031:3031
-    environment:
-      - APP_PORT=3031
+    env_file:
+      - .env
