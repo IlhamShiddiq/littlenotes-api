@@ -22,6 +22,10 @@ const NoteSchema = new Schema({
     updated_at: {
         type: Date,
         default: Date.now()
+    },
+    owner: {
+        type: String,
+        ref: 'users'
     }
 })
 

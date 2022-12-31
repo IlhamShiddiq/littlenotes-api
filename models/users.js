@@ -26,7 +26,11 @@ const UserSchema = new Schema({
     updated_at: {
         type: Date,
         default: Date.now()
-    }
+    },
+    notes: [{
+        type: String,
+        ref: 'notes'
+    }]
 })
 
 module.exports = User = mongoose.model('users', UserSchema)
