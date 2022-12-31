@@ -7,7 +7,7 @@ const generateValidators = () => [
         .withMessage('Fullname field is required'),
     check('email')
         .notEmpty()
-        .withMessage('Fullname field is required')
+        .withMessage('Email field is required')
         .isEmail()
         .withMessage('Must be a valid email')
         .custom((email, { req }) => {

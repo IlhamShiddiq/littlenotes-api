@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const User = require('../../models/users')
 const UserResource = require('../../resources/User/UserResource')
 
@@ -34,7 +35,7 @@ class UserService
         const user = new User({
             full_name: req.body.full_name,
             email: req.body.email,
-            password: req.body.password,
+            password: await bcrypt.hash(req.body.password, 10),
         })
 
         try {

@@ -5,8 +5,10 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const helmet = require('helmet')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index')
+const authRouter = require('./routes/auth')
 const usersRouter = require('./routes/users')
 const notesRouter = require('./routes/notes')
 
@@ -17,6 +19,7 @@ const app = express()
 
 app.use(helmet())
 app.use(cors())
+app.use(bodyParser.json())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -24,8 +27,9 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api/v1/', indexRouter)
-app.use('/api/v1/users', usersRouter)
+app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/notes', notesRouter)
+app.use('/api/v1/users', usersRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
