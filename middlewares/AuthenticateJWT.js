@@ -8,9 +8,10 @@ const AuthenticateJWT = (req, res, next) => {
 
         jwt.verify(token, CONFIGS.jwt.secret_key, (err, user) => {
             if (err) res.status(403).json({message: 'Forbidden'})
-
-            req.user = user;
-            next();
+            else {
+                req.user = user;
+                next();
+            }
         });
     } else {
         res.status(401).json({message: 'Unauthorized'})
