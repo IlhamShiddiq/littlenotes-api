@@ -63,20 +63,21 @@ class NoteService
     static update = async (req, res) => {
         const checkNote = await Note.findById(req.params.id)
         if (!checkNote) res.status(404).json({message: 'Data Not Found'})
+        else {
+            const payload = {
+                title: req.body.title,
+                body: req.body.body,
+                updated_at: Date.now()
+            }
 
-        const payload = {
-            title: req.body.title,
-            body: req.body.body,
-            updated_at: Date.now()
-        }
-
-        try {
-            await Note.updateOne({_id: req.params.id}, payload)
-            res.json({
-                message: 'Data updated'
-            })
-        } catch (error) {
-            res.status(500).json({message: error.message})
+            try {
+                await Note.updateOne({_id: req.params.id}, payload)
+                res.json({
+                    message: 'Data updated'
+                })
+            } catch (error) {
+                res.status(500).json({message: error.message})
+            }
         }
     }
 
@@ -94,28 +95,30 @@ class NoteService
     static setArchive = async (req, res) => {
         const checkNote = await Note.findById(req.params.id)
         if (!checkNote) res.status(404).json({message: 'Data Not Found'})
-
-        try {
-            await Note.updateOne({_id: req.params.id}, {is_archived: true})
-            res.json({
-                message: 'Note archived'
-            })
-        } catch (error) {
-            res.status(500).json({message: error.message})
+        else {
+            try {
+                await Note.updateOne({_id: req.params.id}, {is_archived: true})
+                res.json({
+                    message: 'Note archived'
+                })
+            } catch (error) {
+                res.status(500).json({message: error.message})
+            }
         }
     }
 
     static setUnarchive = async (req, res) => {
         const checkNote = await Note.findById(req.params.id)
         if (!checkNote) res.status(404).json({message: 'Data Not Found'})
-
-        try {
-            await Note.updateOne({_id: req.params.id}, {is_archived: false})
-            res.json({
-                message: 'Note unarchived'
-            })
-        } catch (error) {
-            res.status(500).json({message: error.message})
+        else {
+            try {
+                await Note.updateOne({_id: req.params.id}, {is_archived: false})
+                res.json({
+                    message: 'Note unarchived'
+                })
+            } catch (error) {
+                res.status(500).json({message: error.message})
+            }
         }
     }
 
