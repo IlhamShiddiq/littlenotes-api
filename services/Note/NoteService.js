@@ -5,7 +5,11 @@ class NoteService
 {
     static fetchAll = async (req, res) => {
         try {
-            const notes = await Note.find({owner: req.user.id}).sort({created_at: -1})
+            const searched_keyword = req.query.search || null
+            let notes = Note.find({owner: req.user.id})
+            if (searched_keyword) notes = notes.find({title: {$regex: searched_keyword, $options: 'i'}})
+
+            notes = await notes.sort({created_at: -1}).exec()
 
             res.json({
                 message: 'All notes data',
