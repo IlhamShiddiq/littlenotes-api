@@ -24,9 +24,9 @@ class AuthService
                         accessToken: access_token
                     }
                 })
+            } else {
+                res.status(400).json({status: 'failed', message: 'Wrong email or password!'})
             }
-
-            res.status(400).json({status: 'failed', message: 'Wrong email or password!'})
         } catch (error) {
             res.status(500).json({status: 'failed', message: 'Internal Server Error'})
         }
