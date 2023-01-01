@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const NoteSchema = new Schema({
     _id: {
         type: String,
-        default: uuid.v4()
+        default: uuid.v4
     },
     title: {
         type: String,
