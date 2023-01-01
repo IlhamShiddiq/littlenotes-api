@@ -5,11 +5,20 @@ class NoteService
 {
     static fetchAll = async (req, res) => {
         try {
-            const searched_keyword = req.query.search || null
-            let notes = Note.find({owner: req.user.id})
-            if (searched_keyword) notes = notes.find({title: {$regex: searched_keyword, $options: 'i'}})
+            const notes = await this._getFetchQuery(req)
 
-            notes = await notes.sort({created_at: -1}).exec()
+            res.json({
+                message: 'All notes data',
+                data: NoteResource.collection(notes)
+            })
+        } catch (error) {
+            res.status(500).json({message: error.message})
+        }
+    }
+
+    static fetchAllArchived = async (req, res) => {
+        try {
+            const notes = await this._getFetchQuery(req, true)
 
             res.json({
                 message: 'All notes data',
@@ -80,6 +89,43 @@ class NoteService
         } catch (error) {
             res.status(500).json({message: error.message})
         }
+    }
+
+    static setArchive = async (req, res) => {
+        const checkNote = await Note.findById(req.params.id)
+        if (!checkNote) res.status(404).json({message: 'Data Not Found'})
+
+        try {
+            await Note.updateOne({_id: req.params.id}, {is_archived: true})
+            res.json({
+                message: 'Note archived'
+            })
+        } catch (error) {
+            res.status(500).json({message: error.message})
+        }
+    }
+
+    static setUnarchive = async (req, res) => {
+        const checkNote = await Note.findById(req.params.id)
+        if (!checkNote) res.status(404).json({message: 'Data Not Found'})
+
+        try {
+            await Note.updateOne({_id: req.params.id}, {is_archived: false})
+            res.json({
+                message: 'Note unarchived'
+            })
+        } catch (error) {
+            res.status(500).json({message: error.message})
+        }
+    }
+
+    // Utilities Method
+    static _getFetchQuery = async (req, is_archived = false) => {
+        const searched_keyword = req.query.search || null
+        let notes = Note.find({owner: req.user.id, is_archived: is_archived})
+        if (searched_keyword) notes = notes.find({title: {$regex: searched_keyword, $options: 'i'}})
+
+        return await notes.sort({created_at: -1}).exec()
     }
 }
 
