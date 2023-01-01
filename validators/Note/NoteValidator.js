@@ -7,11 +7,6 @@ const generateValidators = () => [
     check('body')
         .notEmpty()
         .withMessage('Body is required'),
-    check('owner')
-        .notEmpty()
-        .withMessage('Owner is required')
-        .isUUID(4)
-        .withMessage('Owner must be valid UUID'),
 ]
 
 const reporter = (req, res, next) => {

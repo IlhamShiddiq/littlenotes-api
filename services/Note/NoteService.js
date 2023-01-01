@@ -1,27 +1,15 @@
 const Note = require('../../models/notes')
+const NoteResource = require('../../resources/Note/NoteResource')
 
 class NoteService
 {
     static fetchAll = async (req, res) => {
         try {
-            const notes = await Note.find()
+            const notes = await Note.find({owner: req.user.id}).sort({created_at: -1})
 
             res.json({
                 message: 'All notes data',
-                data: notes
-            })
-        } catch (error) {
-            res.status(500).json({message: error.message})
-        }
-    }
-
-    static fetchByOwner = async (req, res) => {
-        try {
-            const notes = await Note.find({owner: req.params.owner})
-
-            res.json({
-                message: 'All notes data',
-                data: notes
+                data: NoteResource.collection(notes)
             })
         } catch (error) {
             res.status(500).json({message: error.message})
@@ -34,7 +22,7 @@ class NoteService
 
             note ? res.json({
                 message: 'Get Detail',
-                data: note
+                data: new NoteResource(note).exec()
             }) : res.status(404).json({message: 'Data Not Found'})
         } catch (error) {
             res.status(500).json({message: error.message})
@@ -45,14 +33,14 @@ class NoteService
         const note = new Note({
             title: req.body.title,
             body: req.body.body,
-            owner: req.body.owner,
+            owner: req.user.id,
         })
 
         try {
             const newNote = await note.save()
             res.json({
                 message: 'Note stored',
-                data: newNote
+                data: new NoteResource(newNote).exec()
             })
         } catch (error) {
             res.status(500).json({message: error.message})
@@ -66,7 +54,6 @@ class NoteService
         const payload = {
             title: req.body.title,
             body: req.body.body,
-            owner: req.body.owner,
             updated_at: Date.now()
         }
 

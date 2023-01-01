@@ -8,7 +8,7 @@ class UserResource extends Resource
             full_name: this.full_name || null,
             email: this.email || null,
             created_at: this.created_at || null
-        };
+        }
     }
 }
 

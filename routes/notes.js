@@ -5,7 +5,6 @@ const NoteValidator = require('../validators/Note/NoteValidator')
 const AuthenticateJWT = require('../middlewares/AuthenticateJWT')
 
 router.get('/', AuthenticateJWT, NoteService.fetchAll)
-router.get('/by/:owner', AuthenticateJWT, NoteService.fetchByOwner)
 router.get('/:id', AuthenticateJWT, NoteService.fetchDetail)
 router.post('/', [AuthenticateJWT, NoteValidator], NoteService.store)
 router.put('/:id', [AuthenticateJWT, NoteValidator], NoteService.update)
