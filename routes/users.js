@@ -6,6 +6,7 @@ const AuthenticateJWT = require('../middlewares/AuthenticateJWT')
 
 /* GET users listing. */
 router.get('/', AuthenticateJWT, UserService.fetchAll)
+router.get('/me', AuthenticateJWT, UserService.fetchMe)
 router.get('/:id', AuthenticateJWT, UserService.fetchDetail)
 router.post('/', [AuthenticateJWT, UserValidator], UserService.store)
 router.put('/:id', [AuthenticateJWT, UserValidator], UserService.update)

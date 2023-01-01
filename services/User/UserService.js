@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const User = require('../../models/users')
 const UserResource = require('../../resources/User/UserResource')
+const UserLoggedInResource = require('../../resources/User/UserLoggedInResource')
 
 class UserService
 {
@@ -29,6 +30,13 @@ class UserService
         } catch (error) {
             res.status(500).json({message: error.message})
         }
+    }
+
+    static fetchMe = async (req, res) => {
+        res.json({
+            message: 'Get Me',
+            data: new UserLoggedInResource(req.user).exec()
+        })
     }
 
     static store = async (req, res) => {
