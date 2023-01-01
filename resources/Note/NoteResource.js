@@ -7,8 +7,8 @@ class NoteResource extends Resource
             id: this._id || null,
             title: this.title || null,
             body: this.body || null,
-            is_archived: this.is_archived || false,
-            created_at: this.created_at || null,
+            archived: this.is_archived || false,
+            createdAt: this.created_at || null,
         }
     }
 }

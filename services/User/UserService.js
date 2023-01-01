@@ -10,11 +10,12 @@ class UserService
             const users = await User.find()
 
             res.json({
+                status: 'success',
                 message: 'All users data',
                 data: UserResource.collection(users)
             })
         } catch(error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -22,19 +23,21 @@ class UserService
         try {
             const user = await User.findById(req.params.id)
             user ? res.json({
+                status: 'success',
                 message: 'Get detail',
                 data: new UserResource(user).exec()
             }) : res.status(404).json({
                 message: 'Data Not Found',
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
     static fetchMe = async (req, res) => {
         res.json({
-            message: 'Get Me',
+            status: 'success',
+            message: 'User retrieved',
             data: new UserLoggedInResource(req.user).exec()
         })
     }
@@ -49,11 +52,12 @@ class UserService
         try {
             const newUser = await user.save()
             res.status(201).json({
-                message: 'User stored',
+                status: 'success',
+                message: 'User created',
                 data: new UserResource(newUser).exec()
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -71,10 +75,11 @@ class UserService
         try {
             await User.updateOne({_id: req.params.id}, payload)
             res.json({
+                status: 'success',
                 message: 'Data updated'
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -82,10 +87,11 @@ class UserService
         try {
             await User.deleteOne({_id: req.params.id})
             res.json({
+                status: 'success',
                 message: 'Data deleted'
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 }

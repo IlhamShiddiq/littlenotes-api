@@ -18,16 +18,17 @@ class AuthService
                 }, CONFIGS.jwt.secret_key)
 
                 res.json({
-                    message: 'Login success',
+                    status: 'success',
+                    message: 'User logged successfully',
                     data: {
                         accessToken: access_token
                     }
                 })
             }
 
-            res.status(400).json({message: 'Wrong email or password!'})
+            res.status(400).json({status: 'failed', message: 'Wrong email or password!'})
         } catch (error) {
-            res.status(500).json({message: 'Internal Server Error'})
+            res.status(500).json({status: 'failed', message: 'Internal Server Error'})
         }
     }
 

@@ -8,11 +8,12 @@ class NoteService
             const notes = await this._getFetchQuery(req)
 
             res.json({
-                message: 'All notes data',
+                status: 'success',
+                message: 'Notes retrieved',
                 data: NoteResource.collection(notes)
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -21,11 +22,12 @@ class NoteService
             const notes = await this._getFetchQuery(req, true)
 
             res.json({
-                message: 'All notes data',
+                status: 'success',
+                message: 'Notes retrieved',
                 data: NoteResource.collection(notes)
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -34,11 +36,12 @@ class NoteService
             const note = await Note.findById(req.params.id)
 
             note ? res.json({
-                message: 'Get Detail',
+                status: 'success',
+                message: 'Note retrieved',
                 data: new NoteResource(note).exec()
-            }) : res.status(404).json({message: 'Data Not Found'})
+            }) : res.status(404).json({status: 'failed', message: 'Data Not Found'})
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -52,11 +55,12 @@ class NoteService
         try {
             const newNote = await note.save()
             res.json({
-                message: 'Note stored',
+                status: 'success',
+                message: 'Note created',
                 data: new NoteResource(newNote).exec()
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -73,10 +77,11 @@ class NoteService
             try {
                 await Note.updateOne({_id: req.params.id}, payload)
                 res.json({
-                    message: 'Data updated'
+                    status: 'success',
+                    message: 'Note updated'
                 })
             } catch (error) {
-                res.status(500).json({message: error.message})
+                res.status(500).json({status: 'failed', message: error.message})
             }
         }
     }
@@ -85,10 +90,11 @@ class NoteService
         try {
             await Note.deleteOne({_id: req.params.id})
             res.json({
-                message: 'Data deleted'
+                status: 'success',
+                message: 'Note deleted'
             })
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({status: 'failed', message: error.message})
         }
     }
 
@@ -99,10 +105,11 @@ class NoteService
             try {
                 await Note.updateOne({_id: req.params.id}, {is_archived: true})
                 res.json({
+                    status: 'success',
                     message: 'Note archived'
                 })
             } catch (error) {
-                res.status(500).json({message: error.message})
+                res.status(500).json({status: 'failed', message: error.message})
             }
         }
     }
@@ -114,10 +121,11 @@ class NoteService
             try {
                 await Note.updateOne({_id: req.params.id}, {is_archived: false})
                 res.json({
+                    status: 'success',
                     message: 'Note unarchived'
                 })
             } catch (error) {
-                res.status(500).json({message: error.message})
+                res.status(500).json({status: 'failed', message: error.message})
             }
         }
     }
