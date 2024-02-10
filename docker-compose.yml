@@ -1,8 +1,10 @@
 services:
   littlenotes-api:
+    build: .
     container_name: littlenotes-api
     image: littlenotes-api:latest
+    restart: always
     ports:
-      - 3031:3031
+      - 7001:3031
     env_file:
       - .env
